@@ -73,7 +73,8 @@
 		</canvas>
 		
 	</div>
-	
+	<script src="pwabuilder-sw"></script>
+	<script src="pwabuilder-sw-register"></script>
 	<!-- Pages load faster with scripts at the bottom -->
 	
 	<!-- Construct 2 exported games require jQuery. -->
@@ -86,6 +87,29 @@
 	<script src="c2runtime.js"></script>
 
     <script>
+	
+// This is the service worker with the combined offline experience (Offline page + Offline copy of pages)
+
+// Add this below content to your HTML page, or add the js file to your page at the very top to register service worker
+
+// Check compatibility for the browser we're running this in
+if ("serviceWorker" in navigator) {
+  if (navigator.serviceWorker.controller) {
+    console.log("[PWA Builder] active service worker found, no need to register");
+  } else {
+    // Register the service worker
+    navigator.serviceWorker
+      .register("pwabuilder-sw.js", {
+        scope: "./"
+      })
+      .then(function (reg) {
+        console.log("[PWA Builder] Service worker has been registered for scope: " + reg.scope);
+      });
+  }
+}
+
+		 
+		 
 		// Start the Construct 2 project running on window load.
 		jQuery(document).ready(function ()
 		{			
